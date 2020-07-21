@@ -13,7 +13,7 @@ public class IntegerDivision {
         divisor = Math.abs(divisor);
         if (dividend < divisor) {
             return "" + dividend + "/" + divisor + "=0";
-        }        
+        }
         String[] dividendStr = String.valueOf(dividend).split("");
         int incompletePrivate = 0;
         int numPointer = 0;
@@ -90,7 +90,8 @@ public class IntegerDivision {
             stringRsult.append(spaces + "_" + incompleteQuotient.get(pointer) + "\n");
             stringRsult.append(spaces + " " + incompleteQuotient.get(pointer + 1) + "\n");
             for (int count = incompleteQuotient.get(pointer + 1).length(); count > 0; count--) {
-                hyphens.append("-");;
+                hyphens.append("-");
+                ;
             }
             stringRsult.append(spaces + " " + hyphens + "\n");
             if (pointer >= incompleteQuotient.size() - 1) {
