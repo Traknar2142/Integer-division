@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import ua.com.foxminded.task4.IntegerDivision.IntegerDivision;
+import ua.com.foxminded.task4.integerdivision.IntegerDivision;
 
 public class IntegerDivisionApp {
     public static void main(String[] args) throws IOException {

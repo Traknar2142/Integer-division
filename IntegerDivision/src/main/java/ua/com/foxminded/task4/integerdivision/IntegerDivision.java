@@ -1,9 +1,9 @@
-package ua.com.foxminded.task4.IntegerDivision;
+package ua.com.foxminded.task4.integerdivision;
 
 import java.util.ArrayList;
 
 public class IntegerDivision {
-    ArrayList<String> incompleteQuotient = new ArrayList<>();
+    private ArrayList<String> incompleteQuotient = new ArrayList<>();
 
     public String makeDivision(int dividend, int divisor) {
         if (divisor == 0) {
@@ -90,8 +90,7 @@ public class IntegerDivision {
             stringRsult.append(spaces + "_" + incompleteQuotient.get(pointer) + "\n");
             stringRsult.append(spaces + " " + incompleteQuotient.get(pointer + 1) + "\n");
             for (int count = incompleteQuotient.get(pointer + 1).length(); count > 0; count--) {
-                hyphens.append("-");
-                ;
+                hyphens.append("-");               
             }
             stringRsult.append(spaces + " " + hyphens + "\n");
             if (pointer >= incompleteQuotient.size() - 1) {
