@@ -1,20 +1,23 @@
 package ua.com.foxminded.task4.integerdivision;
 
+import java.util.*;
 import java.util.ArrayList;
 
 public class IntegerDivision {
-    private ArrayList<String> incompleteQuotient = new ArrayList<>();
+    private List<String> incompleteQuotient = new ArrayList<String>();
 
     public String makeDivision(int dividend, int divisor) {
         if (divisor == 0) {
-            throw new IllegalArgumentException("Делитель не может быть 0");
+            throw new IllegalArgumentException("Divisor cannot be 0");
         }
         dividend = Math.abs(dividend);
         divisor = Math.abs(divisor);
         if (dividend < divisor) {
+            
             return "" + dividend + "/" + divisor + "=0";
         }
-        String[] dividendStr = String.valueOf(dividend).split("");
+        
+        String[] digits = String.valueOf(dividend).split("");
         int incompletePrivate = 0;
         int numPointer = 0;
         int numeralOfResult = 0;
@@ -22,16 +25,16 @@ public class IntegerDivision {
         int product = 0;
         StringBuilder incompletePrivateBuilder = new StringBuilder();
         StringBuilder builderResult = new StringBuilder();
-        incompletePrivateBuilder.append(dividendStr[numPointer]);
+        incompletePrivateBuilder.append(digits[numPointer]);
         incompletePrivate = Integer.parseInt(incompletePrivateBuilder.toString());
         while (incompletePrivate < divisor) {
             numPointer++;
-            incompletePrivateBuilder.append(dividendStr[numPointer]);
+            incompletePrivateBuilder.append(digits[numPointer]);
             incompletePrivate = Integer.parseInt(incompletePrivateBuilder.toString());
         }
         incompleteQuotient.add(Integer.toString(incompletePrivate));
         numPointer++;
-        for (; numPointer <= dividendStr.length; numPointer++) {
+        for (; numPointer <= digits.length; numPointer++) {
             numeralOfResult = incompletePrivate / divisor;
             product = numeralOfResult * divisor;
             incompleteQuotient.add(Integer.toString(product));
@@ -41,43 +44,45 @@ public class IntegerDivision {
             if (remainder != 0) {
                 incompletePrivateBuilder.append(remainder);
             }
-            if (numPointer == dividendStr.length) {
+            if (numPointer == digits.length) {
                 break;
             }
-            incompletePrivateBuilder.append(dividendStr[numPointer]);
+            incompletePrivateBuilder.append(digits[numPointer]);
             incompleteQuotient.add(incompletePrivateBuilder.toString());
             incompletePrivate = Integer.parseInt(incompletePrivateBuilder.toString());
         }
         if (incompleteQuotient.size() != 1) {
-            incompleteQuotient.add(Integer.toString(Integer.parseInt(incompleteQuotient.get(incompleteQuotient.size() - 2)) - Integer.parseInt(incompleteQuotient.get(incompleteQuotient.size() - 1))));
+            String penultimateNum = incompleteQuotient.get(incompleteQuotient.size() - 2);
+            String lastNum = incompleteQuotient.get(incompleteQuotient.size() - 1);
+            int difference = Integer.parseInt(penultimateNum) - Integer.parseInt(lastNum);            
+            incompleteQuotient.add(Integer.toString(difference));
         } else {
             incompleteQuotient.add(incompleteQuotient.get(0));
         }
-        return printDivide(incompleteQuotient, dividend, divisor, Integer.parseInt(builderResult.toString()));
+        return printColumn(dividend, divisor, Integer.parseInt(builderResult.toString()));
     }
 
-    private String printDivide(ArrayList<String> incompleteQuotient, int dividend, int divisor, int result) {
+    private String printColumn(int dividend, int divisor, int result) {
         StringBuilder spaces = new StringBuilder("");
         StringBuilder hyphens = new StringBuilder("");
-        StringBuilder stringRsult = new StringBuilder();
-        stringRsult.append("_" + dividend + "|" + divisor + "\n");
+        StringBuilder stringResult = new StringBuilder();
+        stringResult.append("_" + dividend + "|" + divisor + "\n");
         for (int count = incompleteQuotient.get(0).length(); count < Integer.toString(dividend).length(); count++) {
             spaces.append(" ");
         }
         for (int count = Integer.toString(result).length(); count > 0; count--) {
             hyphens.append("-");
         }
-        stringRsult.append(" " + incompleteQuotient.get(1) + spaces + "|" + hyphens + "\n");
+        stringResult.append(" " + incompleteQuotient.get(1) + spaces + "|" + hyphens + "\n");
         hyphens = new StringBuilder();
         for (int count = incompleteQuotient.get(0).length(); count > 0; count--) {
             hyphens.append("-");
         }
-        stringRsult.append(" " + hyphens + spaces + "|" + result + "\n");
+        stringResult.append(" " + hyphens + spaces + "|" + result + "\n");
         spaces = new StringBuilder();
         int countOfSpaces;
-        int difference;
         for (int pointer = 2; pointer < incompleteQuotient.size() - 1; pointer = pointer + 2) {
-            difference = Integer.parseInt(incompleteQuotient.get(pointer - 2))
+            int difference = Integer.parseInt(incompleteQuotient.get(pointer - 2))
                     - Integer.parseInt(incompleteQuotient.get(pointer - 1));
             countOfSpaces = incompleteQuotient.get(pointer - 1).length() - Integer.toString(difference).length();
             if (difference == 0) {
@@ -87,23 +92,24 @@ public class IntegerDivision {
                 spaces.append(" ");
             }
             hyphens = new StringBuilder();
-            stringRsult.append(spaces + "_" + incompleteQuotient.get(pointer) + "\n");
-            stringRsult.append(spaces + " " + incompleteQuotient.get(pointer + 1) + "\n");
+            stringResult.append(spaces + "_" + incompleteQuotient.get(pointer) + "\n");
+            stringResult.append(spaces + " " + incompleteQuotient.get(pointer + 1) + "\n");
             for (int count = incompleteQuotient.get(pointer + 1).length(); count > 0; count--) {
                 hyphens.append("-");               
             }
-            stringRsult.append(spaces + " " + hyphens + "\n");
+            stringResult.append(spaces + " " + hyphens + "\n");
             if (pointer >= incompleteQuotient.size() - 1) {
                 break;
             }
         }
-        countOfSpaces = incompleteQuotient.get(incompleteQuotient.size() - 2).length()
-                - incompleteQuotient.get(incompleteQuotient.size() - 1).length();
+        int lengthOfPenultimateNum = incompleteQuotient.get(incompleteQuotient.size() - 2).length();
+        int lengthOfLastNum = incompleteQuotient.get(incompleteQuotient.size() - 1).length();
+        countOfSpaces = lengthOfPenultimateNum - lengthOfLastNum;
         for (int count = 0; count <= countOfSpaces; count++) {
             spaces.append(" ");
         }
-        stringRsult.append(spaces + incompleteQuotient.get(incompleteQuotient.size() - 1));
-        return stringRsult.toString();
+        stringResult.append(spaces + incompleteQuotient.get(incompleteQuotient.size() - 1));
+        return stringResult.toString();
     }
 }
 
