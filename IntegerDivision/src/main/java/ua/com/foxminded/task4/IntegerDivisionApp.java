@@ -14,7 +14,7 @@ public class IntegerDivisionApp {
         try {
             System.out.println(division.makeDivision(Integer.parseInt(dividend), Integer.parseInt(divisor)));
         } catch (Exception e) {
-            System.out.println("Enter numbers");
+            System.out.println("Please enter numbers");
         }
     }
 }
