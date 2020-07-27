@@ -13,10 +13,16 @@ public class IntegerDivisionApp {
         BufferedReader reader = new BufferedReader(new InputStreamReader((System.in)));
         String dividend = reader.readLine();
         String divisor = reader.readLine();
-        IntegerDivision division = new IntegerDivision();
         if (!StringUtils.isNumericSpace(dividend) || !StringUtils.isNumericSpace(divisor)) {
-            throw new IllegalArgumentException("Please enter numbers");
+            System.err.println("Input data is wrong! Please, input numbers");
+            return;
         }
-        System.out.println(division.makeDivision(Integer.parseInt(dividend), Integer.parseInt(divisor)));
+
+        IntegerDivision division = new IntegerDivision();
+        try {
+            System.out.println(division.makeDivision(Integer.parseInt(dividend), Integer.parseInt(divisor)));
+        } catch (IllegalArgumentException e) {
+            System.err.println("Input data is wrong " + e.getMessage());
+        }
     }
 }
